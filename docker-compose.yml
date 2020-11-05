@@ -1,0 +1,36 @@
+version: '3.6'
+
+networks:
+    my_net:
+
+volumes:
+    db-data:
+
+services:
+    db:
+        image: postgres
+        volumes:
+          - db-data:/var/lib/postgresql/data
+        networks:
+            - 'my_net'
+        environment:
+            POSTGRES_PASSWORD: moulard
+
+
+    go_app:
+        networks:
+            - 'my_net'
+        image: golang:latest
+        entrypoint: ./a.out
+        build: 
+            context: .
+            dockerfile: Dockerfile
+        environment:
+            IP: 0.0.0.0
+            PORT: 8000
+            POSTGRES_URL: db
+            POSTGRES_PASSWORD: moulard
+        ports:
+            - '8000:8000'
+        depends_on:
+            - 'db'

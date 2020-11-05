@@ -133,7 +133,7 @@ func DisplayBlockChain(w http.ResponseWriter, r *http.Request, _ httprouter.Para
 		bc = append(bc, b)
 	}
 
-	fileContent, err := GetFileContent("/blockchain.html")
+	fileContent, err := GetFileContent("blockchain.html")
 	if err != nil {
 		fmt.Fprintln(w, err)
 		return
